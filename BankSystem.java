@@ -10,7 +10,7 @@ class Transaction {
     public Transaction(String type, double amount) {
         this.type = type;
         this.amount = amount;
-        this.date = new Date().toString(); // Get the current date and time
+        this.date = new Date().toString();
     }
 
     @Override
@@ -34,15 +34,15 @@ class BankAccount {
     }
 
     public String getAccountNumber() {
-        return accountNumber;
+        return accountNumber; // Returns account number
     }
 
     public String getAccountHolder() {
-        return accountHolder;
+        return accountHolder; // Returns account holder name
     }
 
     public double getBalance() {
-        return balance;
+        return balance; // Returns the balance of the account
     }
 
     public void deposit(double amount) {
@@ -51,7 +51,7 @@ class BankAccount {
             transactionHistory.add(new Transaction("DEPOSIT", amount));
             System.out.println("DEPOSITED: Rs. " + amount);
         } else {
-            System.out.println("INVALID AMOUNT!");
+            System.out.println("INVALID AMOUNT!"); // Handles invalid deposit amount
         }
     }
 
@@ -60,20 +60,20 @@ class BankAccount {
             balance -= amount;
             transactionHistory.add(new Transaction("WITHDRAWAL", amount));
             System.out.println("WITHDRAWN: Rs. " + amount);
-            return true;
+            return true; // Successful withdrawal
         } else {
-            System.out.println("INSUFFICIENT BALANCE OR INVALID AMOUNT!");
+            System.out.println("INSUFFICIENT BALANCE OR INVALID AMOUNT!"); // Insufficient balance or invalid amount
             return false;
         }
     }
 
     public void showTransactionHistory() {
         if (transactionHistory.isEmpty()) {
-            System.out.println("NO TRANSACTIONS FOUND!");
+            System.out.println("NO TRANSACTIONS FOUND!"); // No transactions to display
         } else {
             System.out.println("\nTRANSACTION HISTORY FOR ACCOUNT " + accountNumber + ":");
             for (Transaction transaction : transactionHistory) {
-                System.out.println(transaction);
+                System.out.println(transaction); // Displays transaction history
             }
         }
     }
@@ -87,26 +87,26 @@ class BankAccount {
 
                 if (confirm.equalsIgnoreCase("YES")) {
                     accounts.remove(i);
-                    System.out.println("ACCOUNT DELETED SUCCESSFULLY!");
+                    System.out.println("ACCOUNT DELETED SUCCESSFULLY!"); // Deletes the account
                 } else {
-                    System.out.println("ACCOUNT DELETION CANCELED.");
+                    System.out.println("ACCOUNT DELETION CANCELED."); // Cancellation message
                 }
                 return;
             }
         }
-        System.out.println("ACCOUNT NOT FOUND!");
+        System.out.println("ACCOUNT NOT FOUND!"); // If account is not found
     }
 
     public void showDetails() {
         System.out.println("ACCOUNT NUMBER: " + accountNumber);
         System.out.println("ACCOUNT HOLDER: " + accountHolder);
-        System.out.println("BALANCE: Rs. " + balance);
+        System.out.println("BALANCE: Rs. " + balance); // Shows account details
     }
 
     // Currency Conversion
     public double convertCurrency(double amount, String fromCurrency, String toCurrency) {
         double conversionRate = getConversionRate(fromCurrency, toCurrency);
-        return amount * conversionRate;
+        return amount * conversionRate; // Converts currency based on conversion rate
     }
 
     // Get conversion rate (mocked for this example)
@@ -210,7 +210,7 @@ public class BankSystem {
         scanner.nextLine(); // Consume newline
 
         accounts.add(new BankAccount(accNumber, accHolder, deposit));
-        System.out.println("ACCOUNT CREATED SUCCESSFULLY!");
+        System.out.println("ACCOUNT CREATED SUCCESSFULLY!"); // Account creation success
     }
 
     private static void depositMoney() {
@@ -221,9 +221,9 @@ public class BankSystem {
         if (account != null) {
             System.out.print("ENTER AMOUNT TO DEPOSIT: Rs. ");
             double amount = scanner.nextDouble();
-            account.deposit(amount);
+            account.deposit(amount); // Deposits money to account
         } else {
-            System.out.println("ACCOUNT NOT FOUND!");
+            System.out.println("ACCOUNT NOT FOUND!"); // Account not found
         }
     }
 
@@ -235,9 +235,9 @@ public class BankSystem {
         if (account != null) {
             System.out.print("ENTER AMOUNT TO WITHDRAW: Rs. ");
             double amount = scanner.nextDouble();
-            account.withdraw(amount);
+            account.withdraw(amount); // Withdraws money from account
         } else {
-            System.out.println("ACCOUNT NOT FOUND!");
+            System.out.println("ACCOUNT NOT FOUND!"); // Account not found
         }
     }
 
@@ -247,7 +247,7 @@ public class BankSystem {
         BankAccount sender = findAccount(senderAcc);
 
         if (sender == null) {
-            System.out.println("SENDER ACCOUNT NOT FOUND!");
+            System.out.println("SENDER ACCOUNT NOT FOUND!"); // Sender account not found
             return;
         }
 
@@ -256,7 +256,7 @@ public class BankSystem {
         BankAccount receiver = findAccount(receiverAcc);
 
         if (receiver == null) {
-            System.out.println("RECIPIENT ACCOUNT NOT FOUND!");
+            System.out.println("RECIPIENT ACCOUNT NOT FOUND!"); // Recipient account not found
             return;
         }
 
@@ -264,20 +264,20 @@ public class BankSystem {
         double amount = scanner.nextDouble();
 
         if (sender.withdraw(amount)) {
-            receiver.deposit(amount);
-            System.out.println("TRANSFER SUCCESSFUL!");
+            receiver.deposit(amount); // Transfer money between accounts
+            System.out.println("TRANSFER SUCCESSFUL!"); // Transfer success
         }
     }
 
     private static void showAllAccounts() {
         if (accounts.isEmpty()) {
-            System.out.println("NO ACCOUNTS FOUND!");
+            System.out.println("NO ACCOUNTS FOUND!"); // No accounts to show
             return;
         }
 
         System.out.println("\nLIST OF ACCOUNTS:");
         for (BankAccount acc : accounts) {
-            acc.showDetails();
+            acc.showDetails(); // Shows details of all accounts
             System.out.println("----------------------");
         }
     }
@@ -285,7 +285,7 @@ public class BankSystem {
     private static void deleteAccount() {
         System.out.print("ENTER ACCOUNT NUMBER TO DELETE: ");
         String accNumber = scanner.nextLine();
-        BankAccount.deleteAccount(accounts, accNumber);
+        BankAccount.deleteAccount(accounts, accNumber); // Deletes account by account number
     }
 
     private static void viewTransactionHistory() {
@@ -294,9 +294,9 @@ public class BankSystem {
         BankAccount account = findAccount(accNumber);
 
         if (account != null) {
-            account.showTransactionHistory();
+            account.showTransactionHistory(); // Shows transaction history for account
         } else {
-            System.out.println("ACCOUNT NOT FOUND!");
+            System.out.println("ACCOUNT NOT FOUND!"); // Account not found
         }
     }
 
@@ -319,18 +319,18 @@ public class BankSystem {
     
             // Round off to 2 decimal places
             double roundedAmount = Math.round(convertedAmount * 1000.0) / 1000.0;
-            System.out.println("CONVERTED AMOUNT: " + roundedAmount + " " + toCurrency);
+            System.out.println("CONVERTED AMOUNT: " + roundedAmount + " " + toCurrency); // Shows converted amount
         } else {
-            System.out.println("ACCOUNT NOT FOUND!");
+            System.out.println("ACCOUNT NOT FOUND!"); // Account not found
         }
-    }    
+    }
 
     private static BankAccount findAccount(String accNumber) {
         for (BankAccount acc : accounts) {
             if (acc.getAccountNumber().equals(accNumber)) {
-                return acc;
+                return acc; // Finds account by account number
             }
         }
-        return null;
+        return null; // Account not found
     }
 }
