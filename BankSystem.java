@@ -102,6 +102,41 @@ class BankAccount {
         System.out.println("ACCOUNT HOLDER: " + accountHolder);
         System.out.println("BALANCE: Rs. " + balance);
     }
+
+    // Currency Conversion
+    public double convertCurrency(double amount, String fromCurrency, String toCurrency) {
+        double conversionRate = getConversionRate(fromCurrency, toCurrency);
+        return amount * conversionRate;
+    }
+
+    // Get conversion rate (mocked for this example)
+    private double getConversionRate(String fromCurrency, String toCurrency) {
+        // Hardcoded exchange rates
+        switch (fromCurrency) {
+            case "INR":
+                if (toCurrency.equals("USD")) {
+                    return 0.012;  // INR to USD
+                } else if (toCurrency.equals("EUR")) {
+                    return 0.011;  // INR to EUR
+                }
+                break;
+            case "USD":
+                if (toCurrency.equals("INR")) {
+                    return 75.0;  // USD to INR
+                } else if (toCurrency.equals("EUR")) {
+                    return 0.85;  // USD to EUR
+                }
+                break;
+            case "EUR":
+                if (toCurrency.equals("INR")) {
+                    return 88.0;  // EUR to INR
+                } else if (toCurrency.equals("USD")) {
+                    return 1.18;  // EUR to USD
+                }
+                break;
+        }
+        return 1; // Default case if no rate found
+    }
 }
 
 public class BankSystem {
@@ -118,7 +153,8 @@ public class BankSystem {
             System.out.println("5. SHOW ALL ACCOUNTS");
             System.out.println("6. DELETE ACCOUNT");
             System.out.println("7. VIEW TRANSACTION HISTORY");
-            System.out.println("8. EXIT");
+            System.out.println("8. CURRENCY CONVERSION");
+            System.out.println("9. EXIT");
             System.out.print("CHOOSE AN OPTION: ");
 
             int choice = scanner.nextInt();
@@ -147,6 +183,9 @@ public class BankSystem {
                     viewTransactionHistory();
                     break;
                 case 8:
+                    currencyConversion();
+                    break;
+                case 9:
                     System.out.println("EXITING... THANK YOU FOR USING THE BANK SYSTEM!");
                     return;
                 default:
@@ -250,6 +289,28 @@ public class BankSystem {
 
         if (account != null) {
             account.showTransactionHistory();
+        } else {
+            System.out.println("ACCOUNT NOT FOUND!");
+        }
+    }
+
+    private static void currencyConversion() {
+        System.out.print("ENTER ACCOUNT NUMBER FOR CURRENCY CONVERSION: ");
+        String accNumber = scanner.nextLine();
+        BankAccount account = findAccount(accNumber);
+
+        if (account != null) {
+            System.out.print("ENTER AMOUNT TO CONVERT: Rs. ");
+            double amount = scanner.nextDouble();
+            scanner.nextLine(); // Consume newline
+
+            System.out.print("ENTER SOURCE CURRENCY (INR/USD/EUR): ");
+            String fromCurrency = scanner.nextLine();
+            System.out.print("ENTER TARGET CURRENCY (INR/USD/EUR): ");
+            String toCurrency = scanner.nextLine();
+
+            double convertedAmount = account.convertCurrency(amount, fromCurrency, toCurrency);
+            System.out.println("CONVERTED AMOUNT: " + convertedAmount + " " + toCurrency);
         } else {
             System.out.println("ACCOUNT NOT FOUND!");
         }
