@@ -111,27 +111,33 @@ class BankAccount {
 
     // Get conversion rate (mocked for this example)
     private double getConversionRate(String fromCurrency, String toCurrency) {
-        // Hardcoded exchange rates
+        // Hardcoded exchange rates for PKR as the source currency
         switch (fromCurrency) {
-            case "INR":
+            case "PKR":
                 if (toCurrency.equals("USD")) {
-                    return 0.012;  // INR to USD
+                    return 0.0056;  // PKR to USD
                 } else if (toCurrency.equals("EUR")) {
-                    return 0.011;  // INR to EUR
+                    return 0.0052;  // PKR to EUR
+                } else if (toCurrency.equals("INR")) {
+                    return 0.76;    // PKR to INR
                 }
                 break;
             case "USD":
-                if (toCurrency.equals("INR")) {
-                    return 75.0;  // USD to INR
+                if (toCurrency.equals("PKR")) {
+                    return 178.57;  // USD to PKR
                 } else if (toCurrency.equals("EUR")) {
-                    return 0.85;  // USD to EUR
+                    return 0.85;    // USD to EUR
+                } else if (toCurrency.equals("INR")) {
+                    return 73.0;    // USD to INR
                 }
                 break;
             case "EUR":
-                if (toCurrency.equals("INR")) {
-                    return 88.0;  // EUR to INR
+                if (toCurrency.equals("PKR")) {
+                    return 211.0;   // EUR to PKR
                 } else if (toCurrency.equals("USD")) {
-                    return 1.18;  // EUR to USD
+                    return 1.18;    // EUR to USD
+                } else if (toCurrency.equals("INR")) {
+                    return 87.0;    // EUR to INR
                 }
                 break;
         }
@@ -298,23 +304,26 @@ public class BankSystem {
         System.out.print("ENTER ACCOUNT NUMBER FOR CURRENCY CONVERSION: ");
         String accNumber = scanner.nextLine();
         BankAccount account = findAccount(accNumber);
-
+    
         if (account != null) {
             System.out.print("ENTER AMOUNT TO CONVERT: Rs. ");
             double amount = scanner.nextDouble();
             scanner.nextLine(); // Consume newline
-
-            System.out.print("ENTER SOURCE CURRENCY (INR/USD/EUR): ");
+    
+            System.out.print("ENTER SOURCE CURRENCY (PKR/USD/EUR): ");
             String fromCurrency = scanner.nextLine();
-            System.out.print("ENTER TARGET CURRENCY (INR/USD/EUR): ");
+            System.out.print("ENTER TARGET CURRENCY (PKR/USD/EUR): ");
             String toCurrency = scanner.nextLine();
-
+    
             double convertedAmount = account.convertCurrency(amount, fromCurrency, toCurrency);
-            System.out.println("CONVERTED AMOUNT: " + convertedAmount + " " + toCurrency);
+    
+            // Round off to 2 decimal places
+            double roundedAmount = Math.round(convertedAmount * 1000.0) / 1000.0;
+            System.out.println("CONVERTED AMOUNT: " + roundedAmount + " " + toCurrency);
         } else {
             System.out.println("ACCOUNT NOT FOUND!");
         }
-    }
+    }    
 
     private static BankAccount findAccount(String accNumber) {
         for (BankAccount acc : accounts) {
