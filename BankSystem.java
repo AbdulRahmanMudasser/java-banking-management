@@ -1,15 +1,36 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Date;
+
+class Transaction {
+    private String type;
+    private double amount;
+    private String date;
+
+    public Transaction(String type, double amount) {
+        this.type = type;
+        this.amount = amount;
+        this.date = new Date().toString(); // Get the current date and time
+    }
+
+    @Override
+    public String toString() {
+        return "TYPE: " + type + ", AMOUNT: Rs. " + amount + ", DATE: " + date;
+    }
+}
 
 class BankAccount {
     private String accountNumber;
     private String accountHolder;
     private double balance;
+    private ArrayList<Transaction> transactionHistory;
 
     public BankAccount(String accountNumber, String accountHolder, double initialDeposit) {
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
         this.balance = initialDeposit;
+        this.transactionHistory = new ArrayList<>();
+        transactionHistory.add(new Transaction("ACCOUNT CREATED", initialDeposit)); // Record the account creation transaction
     }
 
     public String getAccountNumber() {
@@ -27,6 +48,7 @@ class BankAccount {
     public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
+            transactionHistory.add(new Transaction("DEPOSIT", amount));
             System.out.println("DEPOSITED: Rs. " + amount);
         } else {
             System.out.println("INVALID AMOUNT!");
@@ -36,11 +58,23 @@ class BankAccount {
     public boolean withdraw(double amount) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
+            transactionHistory.add(new Transaction("WITHDRAWAL", amount));
             System.out.println("WITHDRAWN: Rs. " + amount);
             return true;
         } else {
             System.out.println("INSUFFICIENT BALANCE OR INVALID AMOUNT!");
             return false;
+        }
+    }
+
+    public void showTransactionHistory() {
+        if (transactionHistory.isEmpty()) {
+            System.out.println("NO TRANSACTIONS FOUND!");
+        } else {
+            System.out.println("\nTRANSACTION HISTORY FOR ACCOUNT " + accountNumber + ":");
+            for (Transaction transaction : transactionHistory) {
+                System.out.println(transaction);
+            }
         }
     }
 
@@ -83,7 +117,8 @@ public class BankSystem {
             System.out.println("4. TRANSFER MONEY");
             System.out.println("5. SHOW ALL ACCOUNTS");
             System.out.println("6. DELETE ACCOUNT");
-            System.out.println("7. EXIT");
+            System.out.println("7. VIEW TRANSACTION HISTORY");
+            System.out.println("8. EXIT");
             System.out.print("CHOOSE AN OPTION: ");
 
             int choice = scanner.nextInt();
@@ -109,6 +144,9 @@ public class BankSystem {
                     deleteAccount();
                     break;
                 case 7:
+                    viewTransactionHistory();
+                    break;
+                case 8:
                     System.out.println("EXITING... THANK YOU FOR USING THE BANK SYSTEM!");
                     return;
                 default:
@@ -203,6 +241,18 @@ public class BankSystem {
         System.out.print("ENTER ACCOUNT NUMBER TO DELETE: ");
         String accNumber = scanner.nextLine();
         BankAccount.deleteAccount(accounts, accNumber);
+    }
+
+    private static void viewTransactionHistory() {
+        System.out.print("ENTER ACCOUNT NUMBER TO VIEW TRANSACTION HISTORY: ");
+        String accNumber = scanner.nextLine();
+        BankAccount account = findAccount(accNumber);
+
+        if (account != null) {
+            account.showTransactionHistory();
+        } else {
+            System.out.println("ACCOUNT NOT FOUND!");
+        }
     }
 
     private static BankAccount findAccount(String accNumber) {
