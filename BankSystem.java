@@ -311,9 +311,9 @@ public class BankSystem {
             scanner.nextLine(); // Consume newline
     
             System.out.print("ENTER SOURCE CURRENCY (PKR/USD/EUR): ");
-            String fromCurrency = scanner.nextLine();
+            String fromCurrency = scanner.nextLine().toUpperCase();
             System.out.print("ENTER TARGET CURRENCY (PKR/USD/EUR): ");
-            String toCurrency = scanner.nextLine();
+            String toCurrency = scanner.nextLine().toUpperCase();
     
             double convertedAmount = account.convertCurrency(amount, fromCurrency, toCurrency);
     
