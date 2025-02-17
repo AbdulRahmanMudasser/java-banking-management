@@ -6,7 +6,6 @@ class BankAccount {
     private String accountHolder;
     private double balance;
 
-    // Constructor
     public BankAccount(String accountNumber, String accountHolder, double initialDeposit) {
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
@@ -28,19 +27,19 @@ class BankAccount {
     public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
-            System.out.println("✅ DEPOSITED ₹" + amount);
+            System.out.println("DEPOSITED: Rs. " + amount);
         } else {
-            System.out.println("❌ INVALID AMOUNT!");
+            System.out.println("INVALID AMOUNT!");
         }
     }
 
     public boolean withdraw(double amount) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
-            System.out.println("✅ WITHDRAWN ₹" + amount);
+            System.out.println("WITHDRAWN: Rs. " + amount);
             return true;
         } else {
-            System.out.println("❌ INSUFFICIENT BALANCE OR INVALID AMOUNT!");
+            System.out.println("INSUFFICIENT BALANCE OR INVALID AMOUNT!");
             return false;
         }
     }
@@ -48,29 +47,26 @@ class BankAccount {
     public static void deleteAccount(ArrayList<BankAccount> accounts, String accNumber) {
         for (int i = 0; i < accounts.size(); i++) {
             if (accounts.get(i).getAccountNumber().equals(accNumber)) {
-                System.out.println("⚠️ ARE YOU SURE YOU WANT TO DELETE THIS ACCOUNT? (YES/NO)");
+                System.out.println("ARE YOU SURE YOU WANT TO DELETE THIS ACCOUNT? (YES/NO)");
                 Scanner scanner = new Scanner(System.in);
                 String confirm = scanner.nextLine();
 
                 if (confirm.equalsIgnoreCase("YES")) {
                     accounts.remove(i);
-                    System.out.println("✅ ACCOUNT DELETED SUCCESSFULLY!");
+                    System.out.println("ACCOUNT DELETED SUCCESSFULLY!");
                 } else {
-                    System.out.println("❌ ACCOUNT DELETION CANCELED.");
+                    System.out.println("ACCOUNT DELETION CANCELED.");
                 }
-
-                scanner.close();
-
                 return;
             }
         }
-        System.out.println("⚠️ ACCOUNT NOT FOUND!");
+        System.out.println("ACCOUNT NOT FOUND!");
     }
 
     public void showDetails() {
-        System.out.println("📌 ACCOUNT NUMBER: " + accountNumber);
-        System.out.println("👤 ACCOUNT HOLDER: " + accountHolder);
-        System.out.println("💰 BALANCE: ₹" + balance);
+        System.out.println("ACCOUNT NUMBER: " + accountNumber);
+        System.out.println("ACCOUNT HOLDER: " + accountHolder);
+        System.out.println("BALANCE: Rs. " + balance);
     }
 }
 
@@ -80,18 +76,18 @@ public class BankSystem {
 
     public static void main(String[] args) {
         while (true) {
-            System.out.println("\n🏦 BANK SYSTEM MENU:");
-            System.out.println("1️⃣ CREATE ACCOUNT");
-            System.out.println("2️⃣ DEPOSIT MONEY");
-            System.out.println("3️⃣ WITHDRAW MONEY");
-            System.out.println("4️⃣ TRANSFER MONEY");
-            System.out.println("5️⃣ SHOW ALL ACCOUNTS");
-            System.out.println("6️⃣ DELETE ACCOUNT");
-            System.out.println("7️⃣ EXIT");
-            System.out.print("➡ CHOOSE AN OPTION: ");
+            System.out.println("\nBANK SYSTEM MENU:");
+            System.out.println("1. CREATE ACCOUNT");
+            System.out.println("2. DEPOSIT MONEY");
+            System.out.println("3. WITHDRAW MONEY");
+            System.out.println("4. TRANSFER MONEY");
+            System.out.println("5. SHOW ALL ACCOUNTS");
+            System.out.println("6. DELETE ACCOUNT");
+            System.out.println("7. EXIT");
+            System.out.print("CHOOSE AN OPTION: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // Consume newline
 
             switch (choice) {
                 case 1:
@@ -113,10 +109,10 @@ public class BankSystem {
                     deleteAccount();
                     break;
                 case 7:
-                    System.out.println("🔴 EXITING... THANK YOU FOR USING THE BANK SYSTEM!");
+                    System.out.println("EXITING... THANK YOU FOR USING THE BANK SYSTEM!");
                     return;
                 default:
-                    System.out.println("❌ INVALID CHOICE! TRY AGAIN.");
+                    System.out.println("INVALID CHOICE! TRY AGAIN.");
             }
         }
     }
@@ -126,12 +122,12 @@ public class BankSystem {
         String accNumber = scanner.nextLine();
         System.out.print("ENTER ACCOUNT HOLDER NAME: ");
         String accHolder = scanner.nextLine();
-        System.out.print("ENTER INITIAL DEPOSIT AMOUNT: ₹");
+        System.out.print("ENTER INITIAL DEPOSIT AMOUNT: Rs. ");
         double deposit = scanner.nextDouble();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume newline
 
         accounts.add(new BankAccount(accNumber, accHolder, deposit));
-        System.out.println("✅ ACCOUNT CREATED SUCCESSFULLY!");
+        System.out.println("ACCOUNT CREATED SUCCESSFULLY!");
     }
 
     private static void depositMoney() {
@@ -140,11 +136,11 @@ public class BankSystem {
         BankAccount account = findAccount(accNumber);
 
         if (account != null) {
-            System.out.print("ENTER AMOUNT TO DEPOSIT: ₹");
+            System.out.print("ENTER AMOUNT TO DEPOSIT: Rs. ");
             double amount = scanner.nextDouble();
             account.deposit(amount);
         } else {
-            System.out.println("⚠️ ACCOUNT NOT FOUND!");
+            System.out.println("ACCOUNT NOT FOUND!");
         }
     }
 
@@ -154,11 +150,11 @@ public class BankSystem {
         BankAccount account = findAccount(accNumber);
 
         if (account != null) {
-            System.out.print("ENTER AMOUNT TO WITHDRAW: ₹");
+            System.out.print("ENTER AMOUNT TO WITHDRAW: Rs. ");
             double amount = scanner.nextDouble();
             account.withdraw(amount);
         } else {
-            System.out.println("⚠️ ACCOUNT NOT FOUND!");
+            System.out.println("ACCOUNT NOT FOUND!");
         }
     }
 
@@ -168,7 +164,7 @@ public class BankSystem {
         BankAccount sender = findAccount(senderAcc);
 
         if (sender == null) {
-            System.out.println("⚠️ SENDER ACCOUNT NOT FOUND!");
+            System.out.println("SENDER ACCOUNT NOT FOUND!");
             return;
         }
 
@@ -177,26 +173,26 @@ public class BankSystem {
         BankAccount receiver = findAccount(receiverAcc);
 
         if (receiver == null) {
-            System.out.println("⚠️ RECIPIENT ACCOUNT NOT FOUND!");
+            System.out.println("RECIPIENT ACCOUNT NOT FOUND!");
             return;
         }
 
-        System.out.print("ENTER AMOUNT TO TRANSFER: ₹");
+        System.out.print("ENTER AMOUNT TO TRANSFER: Rs. ");
         double amount = scanner.nextDouble();
 
         if (sender.withdraw(amount)) {
             receiver.deposit(amount);
-            System.out.println("✅ TRANSFER SUCCESSFUL!");
+            System.out.println("TRANSFER SUCCESSFUL!");
         }
     }
 
     private static void showAllAccounts() {
         if (accounts.isEmpty()) {
-            System.out.println("⚠️ NO ACCOUNTS FOUND!");
+            System.out.println("NO ACCOUNTS FOUND!");
             return;
         }
 
-        System.out.println("\n📋 LIST OF ACCOUNTS:");
+        System.out.println("\nLIST OF ACCOUNTS:");
         for (BankAccount acc : accounts) {
             acc.showDetails();
             System.out.println("----------------------");
